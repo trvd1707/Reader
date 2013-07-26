@@ -90,7 +90,7 @@
 
 		CGFloat stride = (useableWidth / (pages - 1)); // Page stride
 
-		NSInteger X = (stride * (page - 1)); CGFloat pageThumbX = X;
+		NSInteger X = (stride * (page)); CGFloat pageThumbX = X;
 
 		CGRect pageThumbRect = pageThumbView.frame; // Current frame
 
@@ -110,7 +110,7 @@
 
 		NSURL *fileURL = document.fileURL; NSString *guid = document.guid; NSString *phrase = document.password;
 
-		ReaderThumbRequest *request = [ReaderThumbRequest newForView:pageThumbView fileURL:fileURL password:phrase guid:guid page:page size:size];
+		ReaderThumbRequest *request = [ReaderThumbRequest newForView:pageThumbView fileURL:fileURL password:phrase guid:guid page:page+1 size:size];
 
 		UIImage *image = [[ReaderThumbCache sharedInstance] thumbRequest:request priority:YES]; // Request the thumb
 
@@ -126,7 +126,7 @@
 
 		NSString *format = NSLocalizedString(@"%d of %d", @"format"); // Format
 
-		NSString *number = [NSString stringWithFormat:format, page, pages]; // Text
+		NSString *number = [NSString stringWithFormat:format, page+1, pages]; // Text
 
 		pageNumberLabel.text = number; // Update the page number label text
 
@@ -179,14 +179,14 @@
 
 		pageNumberLabel.autoresizesSubviews = NO;
 		pageNumberLabel.autoresizingMask = UIViewAutoresizingNone;
-		pageNumberLabel.textAlignment = UITextAlignmentCenter;
+		pageNumberLabel.textAlignment = NSTextAlignmentCenter;
 		pageNumberLabel.backgroundColor = [UIColor clearColor];
 		pageNumberLabel.textColor = [UIColor whiteColor];
 		pageNumberLabel.font = [UIFont systemFontOfSize:16.0f];
 		pageNumberLabel.shadowOffset = CGSizeMake(0.0f, 1.0f);
 		pageNumberLabel.shadowColor = [UIColor blackColor];
 		pageNumberLabel.adjustsFontSizeToFitWidth = YES;
-		pageNumberLabel.minimumFontSize = 12.0f;
+		pageNumberLabel.minimumScaleFactor = 0.75f;
 
 		[pageNumberView addSubview:pageNumberLabel]; // Add label view
 
@@ -408,7 +408,7 @@
 
 	NSInteger page = (trackView.value / stride); // Integer page number
 
-	return (page + 1); // + 1
+	return (page); // using UIPageViewController
 }
 
 - (void)trackViewTouchDown:(ReaderTrackControl *)trackView

@@ -28,6 +28,7 @@
 #import "ReaderDocument.h"
 
 @class ReaderViewController;
+@class ReaderContentView;
 
 @protocol ReaderViewControllerDelegate <NSObject>
 
@@ -37,10 +38,12 @@
 
 @end
 
-@interface ReaderViewController : UIViewController
+@interface ReaderViewController : UIViewController <UIPageViewControllerDataSource, UIPageViewControllerDelegate>
 
 @property (nonatomic, unsafe_unretained, readwrite) id <ReaderViewControllerDelegate> delegate;
+@property (nonatomic,readonly) ReaderContentView *currentContentView;
+@property (assign)              BOOL pageIsAnimating;
 
-- (id)initWithReaderDocument:(ReaderDocument *)object;
+- (id)initWithReaderDocument:(ReaderDocument *)object withActionButton:(UIBarButtonItem *)button;
 
 @end

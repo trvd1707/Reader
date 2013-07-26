@@ -25,7 +25,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIXToolbarView : UIView
+@interface UIXToolbarView : UIToolbar
 
 @end
 

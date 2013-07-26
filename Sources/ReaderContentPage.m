@@ -58,19 +58,15 @@
 {
 	if (_links.count > 0) // Add highlight views over all links
 	{
-		UIColor *hilite = [UIColor colorWithRed:0.0f green:0.0f blue:1.0f alpha:0.15f];
+		UIColor *hilite = [UIColor colorWithRed:0.0f green:1.0f blue:1.0f alpha:0.15f];
 
 		for (ReaderDocumentLink *link in _links) // Enumerate the links array
 		{
-			UIView *highlight = [[UIView alloc] initWithFrame:link.rect];
-
-			highlight.autoresizesSubviews = NO;
-			highlight.userInteractionEnabled = NO;
-			highlight.contentMode = UIViewContentModeRedraw;
-			highlight.autoresizingMask = UIViewAutoresizingNone;
-			highlight.backgroundColor = hilite; // Color
-
-			[self addSubview:highlight];
+            int index = [_links indexOfObject:link];
+            UILabel *highlight = [[UILabel alloc] initWithFrame:link.rect];            
+            highlight.backgroundColor = hilite; // Color
+            highlight.tag = index;                
+            [self addSubview:highlight];
 		}
 	}
 }
@@ -163,9 +159,10 @@
 					{
 						ReaderDocumentLink *documentLink = [self linkFromAnnotation:annotationDictionary];
 
-						if (documentLink != nil) [_links insertObject:documentLink atIndex:0]; // Add link
+						if (documentLink != nil) [_links addObject:documentLink]; // Add link
 					}
-				}
+                }
+				
 			}
 		}
 
@@ -354,7 +351,7 @@
 
 				if (pageDictionaryFromPage == pageDictionaryFromDestArray) // Found it
 				{
-					targetPageNumber = pageNumber; break;
+					targetPageNumber = pageNumber-1; break;
 				}
 			}
 		}
@@ -364,7 +361,7 @@
 
 			if (CGPDFArrayGetInteger(destArray, 0, &pageNumber) == true)
 			{
-				targetPageNumber = (pageNumber + 1); // 1-based
+				targetPageNumber = (pageNumber-1); // 1-based
 			}
 		}
 
@@ -373,7 +370,7 @@
 			linkTarget = [NSNumber numberWithInteger:targetPageNumber];
 		}
 	}
-
+    
 	return linkTarget;
 }
 
@@ -386,7 +383,7 @@
 		if (_links.count > 0) // Process the single tap
 		{
 			CGPoint point = [recognizer locationInView:self];
-
+ 
 			for (ReaderDocumentLink *link in _links) // Enumerate links
 			{
 				if (CGRectContainsPoint(link.rect, point) == true) // Found it
@@ -437,6 +434,7 @@
 
 		if (_PDFDocRef != NULL) // Check for non-NULL CGPDFDocumentRef
 		{
+            // page++;
 			if (page < 1) page = 1; // Check the lower page bounds
 
 			NSInteger pages = CGPDFDocumentGetNumberOfPages(_PDFDocRef);
@@ -504,7 +502,9 @@
 	id view = [self initWithFrame:viewRect]; // UIView setup
 
 	if (view != nil) [self buildAnnotationLinksList]; // Links
-
+    
+    _myPage = page;
+    
 	return view;
 }
 
@@ -587,10 +587,13 @@
 
 - (id)initWithRect:(CGRect)linkRect dictionary:(CGPDFDictionaryRef)linkDictionary
 {
-	if ((self = [super init]))
+//    // simplifyig according to http://www.cocoawithlove.com/2009/04/what-does-it-mean-when-you-assign-super.html
+//        _dictionary = linkDictionary;        
+//		_rect = linkRect;
+    if ((self = [super init]))
 	{
 		_dictionary = linkDictionary;
-
+        
 		_rect = linkRect;
 	}
 
