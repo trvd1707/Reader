@@ -1,4 +1,3 @@
-
 ## PDF Reader Core for iOS
 
 ### Introduction
@@ -173,6 +172,8 @@ touch. The good news is that iOS 5 appears to have fixed this bug.
 Website: [http://www.vfr.org/](http://www.vfr.org/)
 
 Email: joklamcak(at)gmail(dot)com
+
+About this fork: trvd1707(at)gmail(dot)com
 
 If you find this code useful, or wish to fund further development,
 you can use PayPal to donate to the vfr-Reader project:
