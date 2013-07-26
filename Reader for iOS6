@@ -1,0 +1,18 @@
+I used the original PDF Reader code to embed in my project and in the process I converted the code to:
+  - use UIPageViewController
+  - use UIToolBar to generate the MainToolBar
+  - Accept one custom button on MainToolBar when creating a new ReaderViewController
+  
+  There are still some bugs to fix:
+    - PDF page is not shown in full screen mode, it is shown below the MainToolBar on the iPhone
+    - buttons on MainToolbar are not too nice because how UIBarButtonItem renders the images
+    - font used on left button on MainToolBar is too big
+
+    
+  Possible improvements:
+    - cleanup code to remove unused view layout calculations not needed
+    - iPad view to use 2 page mode of UIpageViewController in landscape mode
+    - Use split view in iPad to show TOC and pages
+    - Add search field on MainToolBar
+    
+  
